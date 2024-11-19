@@ -12,11 +12,12 @@ the mechanics
     end the game if character collides with the obstacles
 */
 
+//variables for game
 let characterX = 600;
 let characterY = -150;
 let characterBrokenX = 600;
 let characterBrokenY = 600;
-let velocityY = 2;
+let velocityY = 1;
 let acceleration = 0.5;
 let cloudX = 0;
 let cloudY = 0;
@@ -30,6 +31,7 @@ function setup() {
   createCanvas(600, 600);
 }
 
+//dark trees
 function treeDark(x, y) {
   fill(66, 53, 41);
   stroke(38, 32, 26);
@@ -42,6 +44,7 @@ function treeDark(x, y) {
   ellipse(-20, 50, 50);
   ellipse(-20, 80, 50);
   ellipse(30, 30, 50);
+  //infill of tree
   noStroke();
   fill(37, 61, 35);
   ellipse(0, 65, 70, 97);
@@ -52,6 +55,7 @@ function treeDark(x, y) {
   ellipse(30, 30, 47);
 }
 
+//light trees
 function treeLight(x, y) {
   fill(66, 53, 41);
   stroke(38, 32, 26);
@@ -64,6 +68,7 @@ function treeLight(x, y) {
   ellipse(-20, 50, 50);
   ellipse(-20, 80, 50);
   ellipse(30, 30, 50);
+  //infill of tree
   noStroke();
   fill(71, 110, 68);
   ellipse(0, 65, 70, 98);
@@ -84,6 +89,7 @@ function clouds() {
   ellipse(cloudX + 400, cloudY + 110, 100, 60);
   ellipse(cloudX + 540, cloudY + 90, 100, 60);
 
+  //moving clouds
   cloudX = cloudX + cloudSpeed;
   if (cloudX > 0) {
     cloudSpeed = cloudSpeed * -1;
@@ -92,6 +98,7 @@ function clouds() {
   }
 }
 
+//background used for all screens
 function drawCommonBackground() {
   background(192, 221, 235);
   //ground
@@ -141,6 +148,7 @@ function drawCommonBackground() {
   clouds();
 }
 
+//game character
 function character(x, y) {
   push(); //style changes only affect the character
   scale(0.5);
@@ -241,6 +249,7 @@ function character(x, y) {
   pop(); //revert to original design
 }
 
+//character if game lost
 function characterBroken(characterBrokenX, characterBrokenY) {
   push(); //style changes only affect the character
 
@@ -376,6 +385,7 @@ function characterBroken(characterBrokenX, characterBrokenY) {
   pop(); //revert to original design
 }
 
+//character made for mainMenu screen
 function characterHome(x, y) {
   push(); //style changes only affect the character
   scale(0.5);
@@ -498,6 +508,7 @@ function characterHome(x, y) {
   }
 }
 
+//instructions screen
 function drawInstructions() {
   background(192, 221, 235); // Sky blue background
   strokeWeight(5);
@@ -544,25 +555,35 @@ function drawLoseScreen() {
   characterBroken(-350, 1050);
   pop();
   background(0, 0, 255, 20);
-  fill(50);
-  textSize(20);
+  strokeWeight(5);
+  stroke(100);
+  textSize(48);
   text("YOU LOST", 180, 270);
-  text("The passengers in the balloon died", 140, 290);
+  textSize(20);
+  noStroke();
+  fill(20);
+  text("The passengers in the balloon died", 143, 300);
+  fill(255);
   text("Click anywhere to go back to the menu.", 120, 580);
 }
 
 function drawWinScreen() {
   gameState = "win";
   drawCommonBackground();
-  noStroke();
-  fill(50);
+  strokeWeight(5);
+  stroke(100);
+  textSize(48);
+  text("YOU WON", 185, 270);
   textSize(20);
-  text("YOU WON", 180, 270);
-  text("The passengers in the balloon died", 140, 290);
+  noStroke();
+  fill(20);
+  text("The passengers in the balloon survived", 125, 300);
+  fill(255);
   text("Click anywhere to go back to the menu.", 120, 580);
   character(600, 950);
 }
 
+//fix for problem where game character gets stuck on the screen
 //the following function was generated with ChatGPT with modifications
 //https://chatgpt.com/share/6737bfb0-415c-800e-bc2c-b1d506131a29
 function resetGame() {
@@ -570,7 +591,7 @@ function resetGame() {
   characterY = -150;
   characterBrokenX = 600;
   characterBrokenY = 600;
-  velocityY = 2;
+  velocityY = 1;
   acceleration = 0.5;
 }
 
@@ -587,14 +608,14 @@ function draw() {
     velocityY = velocityY + acceleration;
 
     if (keyIsDown(32) === true) {
-      acceleration = -1;
+      acceleration = -2;
     } else {
       acceleration = 0.5;
     }
 
-    if (velocityY > 4 && characterY > 950) {
+    if (velocityY > 6 && characterY > 950) {
       gameState = "lose";
-    } else if (velocityY <= 4 && characterY > 950) {
+    } else if (velocityY <= 6 && characterY > 950) {
       gameState = "win";
     }
   } else if (gameState === "win") {
